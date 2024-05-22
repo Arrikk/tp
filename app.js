@@ -10,7 +10,7 @@ app.use(cors())
 
 const PORT = process.env.PORT || 9000
 db().then(() => {
-    app.use(appRouter)
+    app.use("/", appRouter)
 }).catch(err => {
     console("Error Occured Connecting to DB: ", err)
 })
