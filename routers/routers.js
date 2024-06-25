@@ -165,7 +165,7 @@ appRouter.post("/inspection", protected, async (req, res) => {
   }
 });
 
-appRouter.post("/admin", protected, adminAccess, async(req, res) => {
+appRouter.post("/admin", async(req, res) => {
   const error = [];
   const email = req.body?.email;
   const password = req.body?.password;
