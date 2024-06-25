@@ -9,5 +9,4 @@ const db = async () => {
         console.log("Connection Error: ", error)
     }
 }
-// Added NL
 module.exports = db

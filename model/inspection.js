@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const inspectionSchema = new mongoose.Schema({
-    email: {type: String, required: true},
-    name: {type: String, required: true},
+    branchId: {type: String, required: true, ref: "User"},
+    status: {type: String, default: "N/A"},
     results: {type: Object, required: true},
 }, {timestamps: true})
 
