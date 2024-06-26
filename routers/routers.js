@@ -199,7 +199,7 @@ appRouter.post("/admin", async(req, res) => {
 
 appRouter.get("/admins", protected, adminAccess, async(req, res) => {
   try{
-    const admin = await User.findOne({role: 'admin'}).select("-password")
+    const admin = await User.find({role: 'admin'}).select("-password")
     return res.status(200).json(message("Admins", admin));
   }catch(e){
     return res.status(400).json(message(e?.message, e))
