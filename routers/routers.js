@@ -206,13 +206,13 @@ appRouter.get("/admins", protected, adminAccess, async(req, res) => {
   }
 });
 
-appRouter.get("/dashboard", protected, adminAccess, async(req, res) => {
+appRouter.get("/dashboard", async(req, res) => {
   try{
     const admin = await User.find().select("-password")
     const totalAdmin = admin.filter(x => x.role === "admin").length
     const totalAgent = admin.filter(x => x.role === "agent").length
 
-    const totalDoc = inspection.countDocuments();
+    const totalDoc = await inspection.countDocuments();
     return res.status(200).json(message("Dashboard", {
       totalAdmin: totalAdmin, totalAgent: totalAgent, totalDoc: totalDoc
     }));
