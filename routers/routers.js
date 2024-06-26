@@ -49,6 +49,11 @@ const adminAccess = async (req, res, next) => {
   if(role === "admin") return next()
     return res.status(401).json(message("Access denied"));
 } 
+const agentAccess = async (req, res, next) => {
+  const role = req.role;
+  if(role === "agent") return next()
+    return res.status(401).json(message("Access denied"));
+} 
 
 appRouter.post('/agent', protected, adminAccess, async (req, res) => {
   let error = {};
@@ -145,7 +150,7 @@ appRouter.get("/agent/inspections/:id", protected, adminAccess, async (req, res)
   return res.status(200).json(message("Documents", documents, true))
 })
 
-appRouter.post("/inspection", protected, async (req, res) => {
+appRouter.post("/inspection", protected, agentAccess, async (req, res) => {
   try {
     const result = req.body.result;
     const branch = req.id
@@ -200,5 +205,21 @@ appRouter.get("/admins", protected, adminAccess, async(req, res) => {
     return res.status(400).json(message(e?.message, e))
   }
 });
+
+appRouter.get("/dashboard", protected, adminAccess, async(req, res) => {
+  try{
+    const admin = await User.find().select("-password")
+    const totalAdmin = admin.filter(x => x.role === "admin").length
+    const totalAgent = admin.filter(x => x.role === "agent").length
+
+    const totalDoc = inspection.countDocuments();
+    return res.status(200).json(message("Dashboard", {
+      totalAdmin: totalAdmin, totalAgent: totalAgent, totalDoc: totalDoc
+    }));
+  }catch(e){
+    return res.status(400).json(message(e?.message, e))
+  }
+});
+
 
 module.exports = appRouter;
