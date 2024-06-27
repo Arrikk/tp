@@ -149,6 +149,10 @@ appRouter.get("/agent/inspections/:id", protected, adminAccess, async (req, res)
   const documents = await inspection.find({branchId: agentID})
   return res.status(200).json(message("Documents", documents, true))
 })
+appRouter.get("/agent/inspections", protected, adminAccess, async (req, res) => {
+  const documents = await inspection.find()
+  return res.status(200).json(message("Documents", documents, true))
+})
 
 appRouter.post("/inspection", protected, agentAccess, async (req, res) => {
   try {
