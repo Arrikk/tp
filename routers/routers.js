@@ -144,7 +144,7 @@ appRouter.delete("/agent/:id", protected, adminAccess, async (req, res) => {
   }
 })
 
-appRouter.get("/agent/inspections/:id"  , adminAccess, async (req, res) => {
+appRouter.get("/agent/inspections/:id", protected, async (req, res) => {
   const agentID = req.params.id;
   const documents = await inspection.find({branchId: agentID})
   return res.status(200).json(message("Documents", documents, true))
