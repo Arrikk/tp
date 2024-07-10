@@ -119,7 +119,7 @@ appRouter.put("/agent/:id", protected, adminAccess, async (req, res) =>  {
   try{
     const agentID = req.params.id
     const branchName = req.body?.branchName;
-    const password = req.body?.password;
+    const password = req.body?.agentPassword;
     const email = req.body?.email;
   
     const agent = await User.findOne({_id: agentID})
